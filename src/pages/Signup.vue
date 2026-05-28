@@ -1,6 +1,10 @@
+<script setup>
+  import Header from '../components/Header.vue'
+</script>
+
 <template>
   <div>
-    <h1 class="text-primary, text-center">Recipedeck</h1>
+    <Header />
     <p class="text-center">Create your account.</p>
   </div>
 </template>
