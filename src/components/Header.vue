@@ -3,12 +3,12 @@
     <h1 class="text-primary, text-center">Recipedeck</h1>
 
     <nav>
-      <a href="/">Home</a>
-      <a href="/upload">Upload Recipe</a>
-      <a href="/recipes">My Recipes</a>
-      <a href="/fav">Favorite Recipes</a>
-      <a href="/login">Log In</a>
-      <a href="/signup">Sign Up</a>
+      <router-link to="/">Home</router-link>
+      <router-link to="/upload">Upload Recipe</router-link>
+      <router-link to="/recipes">My Recipes</router-link>
+      <router-link to="/fav">Favorite Recipes</router-link>
+      <router-link to="/login">Log In</router-link>
+      <router-link to="/signup">Sign Up</router-link>
     </nav>
   </header>
 </template>
