@@ -55,13 +55,12 @@
   font-weight: 500;
 }
 
-.nav-link:hover {
+.nav-link:hover, .nav-link:focus {
   text-decoration: underline;
 }
 
 .navbar-toggler {
   border-color: rgb(255, 255, 255);
-  padding: 0.75rem 1rem;
 }
 
 .navbar-toggler-icon {

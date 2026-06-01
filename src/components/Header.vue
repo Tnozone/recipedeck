@@ -61,7 +61,7 @@
   font-weight: 500;
 }
 
-.nav-link:hover {
+.nav-link:hover, .nav-link:focus {
   text-decoration: underline;
 }
 
