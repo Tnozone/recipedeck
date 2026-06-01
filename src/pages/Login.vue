@@ -1,5 +1,6 @@
 <template>
   <div class="card">
+    <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Log In</h3>
     <form>
       <!-- Email input -->
       <div data-mdb-input-init class="form-outline mb-4">
