@@ -2,7 +2,11 @@
   <div>
     <p class="text-center">Welcome. Upload a recipe or browse for one you like.</p>
   </div>
-  <div></div>
+  <div class="row">
+    <div class="col-sm-6">
+      {{ Recipecard }}
+    </div>
+  </div>
 </template>
 
 <script setup>

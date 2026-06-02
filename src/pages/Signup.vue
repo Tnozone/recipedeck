@@ -29,6 +29,34 @@
         />
         <label class="form-label">Password</label>
       </div>
+      <div class="strength-meter mb-3">
+        <div
+          class="strength-bar"
+          :class="{ active: passwordStrength >= 1, weak: passwordStrength === 1 }"
+        ></div>
+
+        <div
+          class="strength-bar"
+          :class="{ active: passwordStrength >= 2, medium: passwordStrength === 2 }"
+        ></div>
+
+        <div
+          class="strength-bar"
+          :class="{ active: passwordStrength >= 3, strong: passwordStrength === 3 }"
+        ></div>
+      </div>
+
+      <small v-if="passwordStrength === 1" class="text-danger">
+        Weak
+      </small>
+
+      <small v-else-if="passwordStrength === 2" class="text-warning">
+        Medium
+      </small>
+
+      <small v-else-if="passwordStrength === 3" class="text-success">
+        Strong
+      </small>
 
       <div data-mdb-input-init class="form-outline mb-4">
         <input 
@@ -51,13 +79,22 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { saveUser } from '../data/users'
 
 const username = ref('')
 const email = ref('')
 const password = ref('')
 const confirmPassword = ref('')
+
+const passwordStrength = computed(() => {
+  const len = password.value.length
+
+  if (len >= 14) return 3
+  if (len >= 8) return 2
+  if (len > 0) return 1
+  return 0
+})
 
 function register() {
   if (password.value !== confirmPassword.value) {
@@ -87,3 +124,29 @@ function register() {
   confirmPassword.value = ''
 }
 </script>
+
+<style scoped>
+.strength-meter {
+  display: flex;
+  gap: 6px;
+}
+
+.strength-bar {
+  flex: 1;
+  height: 10px;
+  background-color: #e9ecef;
+  border-radius: 5px;
+}
+
+.strength-bar.active.weak {
+  background-color: #dc3545;
+}
+
+.strength-bar.active.medium {
+  background-color: #ffc107;
+}
+
+.strength-bar.active.strong {
+  background-color: #198754;
+}
+</style>
