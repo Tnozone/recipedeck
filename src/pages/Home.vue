@@ -4,3 +4,8 @@
   </div>
   <div></div>
 </template>
+
+<script setup>
+  const currentUser =
+    JSON.parse(localStorage.getItem('currentUser'))
+</script>
