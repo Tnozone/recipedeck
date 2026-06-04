@@ -1,8 +1,15 @@
 <template>
-  <div>
-    <h1 class="text-danger, text-center">404</h1>
-    <p class="text-danger, text-center">Page not found.</p>
-    <a href= "/" class="text-center">return to home page</a>
+  <div class="container p-5 justify-content-center align-items-center">
+    <h1 class="fs-1 text-danger">404 - Page not found</h1>
+    <p class="text-danger">The page "{{ route.fullPath }}" does not exist.</p>
+    <router-link to="/" class="btn btn-primary">
+      Return Home
+    </router-link>
   </div>
-  <div></div>
 </template>
+
+<script setup>
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+</script>

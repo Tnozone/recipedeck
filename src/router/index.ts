@@ -7,6 +7,7 @@ import Uploadrecipe from '../pages/Uploadrecipe.vue'
 import Myrecipes from '../pages/Myrecipes.vue'
 import Favrecipes from '../pages/Favrecipes.vue'
 import Pagemissing from '../pages/Pagemissing.vue'
+import UserRecipes from '../pages/UserRecipes.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,21 +26,48 @@ const router = createRouter({
     },
     {
       path: '/upload',
-      component: Uploadrecipe
+      component: Uploadrecipe,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/recipes',
-      component: Myrecipes
+      component: Myrecipes,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/fav',
-      component: Favrecipes
+      component: Favrecipes,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
-      path: '/404',
+    path: '/user/:username',
+    name: 'UserRecipes',
+    component: UserRecipes
+    },
+    {
+      path: '/:pathMatch(.*)*',
       component: Pagemissing
     }
   ],
+})
+
+// if page requires logged in user, redirect to login page.
+router.beforeEach((to, from, next) => {
+  const currentUser = JSON.parse(
+    localStorage.getItem('currentUser')
+  )
+
+  if (to.meta.requiresAuth && !currentUser) {
+    next('/login')
+  } else {
+    next()
+  }
 })
 
 export default router

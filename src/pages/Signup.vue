@@ -1,80 +1,82 @@
 <template>
-  <div class="card">
-    <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Register</h3>
-    <form @submit.prevent="register">
+  <div class="container p-3">
+    <div class="card p-4">
+      <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 text-center">Register</h3>
+      <form @submit.prevent="register">
 
-      <div data-mdb-input-init class="form-outline mb-4">
-        <input 
-          v-model="username"
-          type="text" 
-          class="form-control form-control-lg" 
-        />
-        <label class="form-label">Username</label>
-      </div>
+        <div data-mdb-input-init class="form-outline mb-4">
+          <input 
+            v-model="username"
+            type="text" 
+            class="form-control form-control-lg" 
+          />
+          <label class="form-label">Username</label>
+        </div>
 
-      <div data-mdb-input-init class="form-outline mb-4">
-        <input 
-          v-model="email"
-          type="email" 
-          class="form-control form-control-lg" 
-        />
-        <label class="form-label">Email</label>
-      </div>
+        <div data-mdb-input-init class="form-outline mb-4">
+          <input 
+            v-model="email"
+            type="email" 
+            class="form-control form-control-lg" 
+          />
+          <label class="form-label">Email</label>
+        </div>
 
-      <div data-mdb-input-init class="form-outline mb-4">
-        <input 
-          v-model="password"
-          type="password" 
-          class="form-control form-control-lg" 
-        />
-        <label class="form-label">Password</label>
-      </div>
-      <div class="strength-meter mb-3">
-        <div
-          class="strength-bar"
-          :class="{ active: passwordStrength >= 1, weak: passwordStrength === 1 }"
-        ></div>
+        <div data-mdb-input-init class="form-outline mb-4">
+          <input 
+            v-model="password"
+            type="password" 
+            class="form-control form-control-lg" 
+          />
+          <label class="form-label">Password</label>
+        </div>
+        <div class="strength-meter mb-3">
+          <div
+            class="strength-bar"
+            :class="{ active: passwordStrength >= 1, weak: passwordStrength === 1 }"
+          ></div>
 
-        <div
-          class="strength-bar"
-          :class="{ active: passwordStrength >= 2, medium: passwordStrength === 2 }"
-        ></div>
+          <div
+            class="strength-bar"
+            :class="{ active: passwordStrength >= 2, medium: passwordStrength === 2 }"
+          ></div>
 
-        <div
-          class="strength-bar"
-          :class="{ active: passwordStrength >= 3, strong: passwordStrength === 3 }"
-        ></div>
-      </div>
+          <div
+            class="strength-bar"
+            :class="{ active: passwordStrength >= 3, strong: passwordStrength === 3 }"
+          ></div>
+        </div>
 
-      <small v-if="passwordStrength === 1" class="text-danger">
-        Weak
-      </small>
+        <small v-if="passwordStrength === 1" class="text-danger">
+          Weak
+        </small>
 
-      <small v-else-if="passwordStrength === 2" class="text-warning">
-        Medium
-      </small>
+        <small v-else-if="passwordStrength === 2" class="text-warning">
+          Medium
+        </small>
 
-      <small v-else-if="passwordStrength === 3" class="text-success">
-        Strong
-      </small>
+        <small v-else-if="passwordStrength === 3" class="text-success">
+          Strong
+        </small>
 
-      <div data-mdb-input-init class="form-outline mb-4">
-        <input 
-          v-model="password"
-          type="password" 
-          class="form-control form-control-lg" 
-        />
-        <label class="form-label">Repeat your password</label>
-      </div>
+        <div data-mdb-input-init class="form-outline mb-4">
+          <input 
+            v-model="confirmPassword"
+            type="password" 
+            class="form-control form-control-lg" 
+          />
+          <label class="form-label">Repeat your password</label>
+        </div>
 
-      <div class="d-flex justify-content-center">
-        <button  type="submit" data-mdb-button-init
-          data-mdb-ripple-init class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>
-      </div>
+        <div class="d-flex justify-content-center">
+          <button  type="submit" data-mdb-button-init
+            data-mdb-ripple-init class="btn btn-success btn-block btn-lg gradient-custom-4 text-body text-white">Register</button>
+        </div>
 
-      <p class="text-center text-muted mt-5 mb-0">Have already an account? <router-link to="/login">Login here</router-link></p>
+        <p class="text-center text-muted mt-5 mb-0">Have already an account? <router-link to="/login">Login here</router-link></p>
 
-    </form>
+      </form>
+    </div>
   </div>
 </template>
 

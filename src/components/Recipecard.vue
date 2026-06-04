@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div class="card p-2">
         <div class="card-header">
             <h5 class="card-title text-center">{{ recipe.name }}</h5>
         </div>
@@ -8,7 +8,9 @@
             <p class="card-text">{{ recipe.steps }}</p>
         </div>
         <div class="card-footer">
-            <p class="card-text">Posted by {{ recipe.username }}</p>
+            <p class="card-text">Posted by <router-link :to="`/user/${recipe.username}`">
+                {{ recipe.username }}
+            </router-link></p>
         </div>
     </div>
 </template>

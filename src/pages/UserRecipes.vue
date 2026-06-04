@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="text-center">Your Recipes.</p>
+    <p class="text-center">Recipes posted by {{ username }}.</p>
   </div>
   <div class="container">
     <div class="row">
@@ -17,14 +17,17 @@
 
 <script setup>
 import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import recipes from '../data/recipes.json'
 import RecipeCard from '../components/RecipeCard.vue'
 
-const userRecipes = computed(() => {
-  if (!currentUser) return []
+const route = useRoute()
 
-  return recipes.filter(
-    recipe => recipe.username === currentUser.username
+const username = route.params.username
+
+const userRecipes = computed(() =>
+  recipes.filter(
+    recipe => recipe.username === username
   )
-})
+)
 </script>
