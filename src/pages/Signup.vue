@@ -82,7 +82,9 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { saveUser } from '../data/users'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const username = ref('')
 const email = ref('')
@@ -98,32 +100,42 @@ const passwordStrength = computed(() => {
   return 0
 })
 
-function register() {
+async function register() {
   if (password.value !== confirmPassword.value) {
-    alert('Passwords do not match')
+    alert("Passwords do not match")
     return
   }
 
-  const user = {
-    username: username.value,
-    email: email.value,
-    password: password.value
+  try {
+    const response = await fetch(
+      "http://localhost:3000/api/users/register",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          username: username.value,
+          email: email.value,
+          password: password.value
+        })
+      }
+    )
+
+    if (!response.ok) {
+      const error = await response.json()
+      alert(error.message)
+      return
+    }
+
+    alert("User registered!")
+
+    router.push("/login")
   }
-
-  const users = JSON.parse(localStorage.getItem('users') || '[]')
-
-  users.push(user)
-
-  localStorage.setItem('users', JSON.stringify(users))
-
-  saveUser(user)
-
-  alert('User registered!')
-
-  username.value = ''
-  email.value = ''
-  password.value = ''
-  confirmPassword.value = ''
+  catch (err) {
+    console.error(err)
+    alert("Could not connect to server.")
+  }
 }
 </script>
 

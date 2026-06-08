@@ -69,30 +69,28 @@
 
 <script setup>
 import { ref } from 'vue'
-import { loginUser } from '../data/users'
 
 const email = ref('')
 const password = ref('')
 
-function login() {
-  const users = JSON.parse(localStorage.getItem('users') || '[]')
-
-  const user = users.find(
-    u => u.email === email.value &&
-         u.password === password.value
-  )
-
-  if (!user) {
-    alert('Invalid email or password')
-    return
+const response = await fetch(
+  "http://localhost:3000/api/users/login",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      email: email.value,
+      password: password.value
+    })
   }
+)
 
-  localStorage.setItem('currentUser', JSON.stringify(user))
+const user = await response.json()
 
-  alert(`Welcome ${user.username}!`)
-
-  // Later:
-  // router.push('/')
-}
-// const user = loginUser(email.value, password.value)
+localStorage.setItem(
+  "currentUser",
+  JSON.stringify(user)
+)
 </script>
