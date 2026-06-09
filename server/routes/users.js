@@ -1,7 +1,7 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
-const User = require("../models/User");
+import User from "../models/User.js";
 
 router.post("/register", async (req, res) => {
     const existingUser = await User.findOne({
@@ -36,4 +36,4 @@ router.post("/login", async (req, res) => {
     res.json(user);
 });
 
-module.exports = router;
+export default router;

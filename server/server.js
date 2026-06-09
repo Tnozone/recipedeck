@@ -5,8 +5,8 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const userRoutes = require("./routes/users");
-const recipeRoutes = require("./routes/recipes");
+import userRoutes from "./routes/users.js";
+import recipeRoutes from "./routes/recipes.js";
 
 const app = express();
 

@@ -1,7 +1,7 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
-const Recipe = require("../models/Recipe");
+import Recipe from "../models/Recipe.js";
 
 router.get("/", async (req, res) => {
     const recipes = await Recipe.find();
@@ -25,4 +25,4 @@ router.get("/user/:username", async (req, res) => {
     res.json(recipes);
 });
 
-module.exports = router;
+export default router;
