@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { computed } from 'vue'
 
 import Home from '../pages/Home.vue'
 import Signup from '../pages/Signup.vue'
@@ -8,6 +9,7 @@ import Myrecipes from '../pages/Myrecipes.vue'
 import Favrecipes from '../pages/Favrecipes.vue'
 import Pagemissing from '../pages/Pagemissing.vue'
 import UserRecipes from '../pages/UserRecipes.vue'
+import RecipeDetails from '../pages/RecipeDetails.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -46,9 +48,14 @@ const router = createRouter({
       }
     },
     {
-    path: '/user/:username',
-    name: 'UserRecipes',
-    component: UserRecipes
+      path: '/user/:username',
+      name: 'UserRecipes',
+      component: UserRecipes
+    },
+    {
+      path: '/recipe/:id',
+      name: 'RecipeDetails',
+      component: RecipeDetails
     },
     {
       path: '/:pathMatch(.*)*',
@@ -59,9 +66,10 @@ const router = createRouter({
 
 // if page requires logged in user, redirect to login page.
 router.beforeEach((to, from, next) => {
-  const currentUser = JSON.parse(
-    localStorage.getItem('currentUser')
-  )
+  const currentUser = computed(() => {
+    const user = localStorage.getItem('currentUser')
+    return user ? JSON.parse(user) : null
+  })
 
   if (to.meta.requiresAuth && !currentUser) {
     next('/login')

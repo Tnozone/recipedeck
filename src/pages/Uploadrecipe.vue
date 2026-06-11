@@ -1,7 +1,7 @@
 <template>
   <div class="container p-3">
     <div class="card p-4">
-      <p class="text-center">Upload a recipe.</p>
+      <h4 class="text-center">Upload a recipe</h4>
       <form @submit.prevent="addRecipe">
 
         <div class="mb-3">
@@ -55,6 +55,9 @@
             placeholder="Describe how to make the recipe"
             required
           ></textarea>
+          <small class="text-muted">
+            One step per line.
+          </small>
         </div>
 
         <button
@@ -71,51 +74,64 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const name = ref('')
 const tags = ref('')
 const ingredients = ref('')
 const steps = ref('')
 
-function addRecipe() {
+async function addRecipe() {
   const currentUser = JSON.parse(
-    localStorage.getItem('currentUser')
+    localStorage.getItem('currentUser') ?? 'null'
   )
 
   if (!currentUser) {
-    alert("You must be logged in.")
+    alert('You must be logged in.')
     return
   }
 
-  const recipes = JSON.parse(
-    localStorage.getItem('recipes') || '[]'
-  )
+  try {
+    const response = await fetch(
+      'http://localhost:3000/api/recipes',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: name.value,
+          tags: tags.value
+            .split(',')
+            .map(tag => tag.trim())
+            .filter(tag => tag.length > 0),
+          ingredients: ingredients.value,
+          steps: steps.value,
+          username: currentUser.username
+        })
+      }
+    )
 
-  const recipe = {
-    id: Date.now(),
-    name: name.value,
-    tags: tags.value
-      .split(',')
-      .map(tag => tag.trim())
-      .filter(tag => tag.length > 0),
-    ingredients: ingredients.value,
-    steps: steps.value,
-    username: currentUser.username
+    if (!response.ok) {
+      const error = await response.json()
+      alert(error.message || 'Failed to add recipe')
+      return
+    }
+
+    alert('Recipe added!')
+
+    name.value = ''
+    tags.value = ''
+    ingredients.value = ''
+    steps.value = ''
+
+    router.push('/recipes')
   }
-
-  recipes.push(recipe)
-
-  localStorage.setItem(
-    'recipes',
-    JSON.stringify(recipes)
-  )
-
-  alert("Recipe added!")
-
-  // Clear form
-  name.value = ''
-  tags.value = ''
-  ingredients.value = ''
-  steps.value = ''
+  catch (err) {
+    console.error(err)
+    alert('Could not connect to server')
+  }
 }
 </script>

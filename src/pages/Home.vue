@@ -1,12 +1,12 @@
 <template>
   <div>
-    <p class="text-center">Welcome. Upload a recipe or browse for one you like.</p>
+    <p class="text-center mt-3 mb-3">Welcome. Upload a recipe or browse for one you like.</p>
   </div>
   <div class="container">
     <div class="row">
       <div
         v-for="recipe in recipes"
-        :key="recipe.id"
+        :key="recipe._id"
         class="col-md-4 mb-4"
       >
         <RecipeCard :recipe="recipe" />
@@ -16,9 +16,20 @@
 </template>
 
 <script setup>
-import recipes from '../data/recipes.json'
 import RecipeCard from '../components/RecipeCard.vue'
+import { ref, onMounted } from 'vue'
 
-const currentUser =
-  JSON.parse(localStorage.getItem('currentUser'))
+const recipes = ref([])
+
+onMounted(async () => {
+  const response = await fetch(
+    'http://localhost:3000/api/recipes'
+  )
+
+  recipes.value = await response.json()
+
+  console.log(data)
+
+  recipes.value = data
+})
 </script>

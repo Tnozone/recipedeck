@@ -1,11 +1,11 @@
 <template>
   <div>
-    <p class="text-center">Your Recipes.</p>
+    <p class="text-center fs-3 mt-3 mb-3">Your Recipes</p>
   </div>
   <div class="container">
     <div class="row">
       <div
-        v-for="recipe in userRecipes"
+        v-for="recipe in recipes"
         :key="recipe.id"
         class="col-md-4 mb-4"
       >
@@ -16,15 +16,17 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import recipes from '../data/recipes.json'
 import RecipeCard from '../components/RecipeCard.vue'
+import { ref, onMounted } from 'vue'
+import { currentUser } from '../stores/auth'
 
-const userRecipes = computed(() => {
-  if (!currentUser) return []
+const recipes = ref([])
 
-  return recipes.filter(
-    recipe => recipe.username === currentUser.username
+onMounted(async () => {
+  const response = await fetch(
+    `http://localhost:3000/api/recipes/user/${currentUser.username}`
   )
+
+  recipes.value = await response.json()
 })
 </script>

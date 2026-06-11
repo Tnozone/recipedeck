@@ -21,19 +21,33 @@ router.post("/register", async (req, res) => {
     res.json(user);
 });
 
-router.post("/login", async (req, res) => {
-    const user = await User.findOne({
-        email: req.body.email,
-        password: req.body.password
-    });
+router.post('/login', async (req, res) => {
+  const { loginIdentifier, password } = req.body
 
-    if (!user) {
-        return res.status(401).json({
-        message: "Invalid credentials"
-        });
-    }
+  const user = await User.findOne({
+    $or: [
+      { username: loginIdentifier },
+      { email: loginIdentifier }
+    ]
+  })
 
-    res.json(user);
-});
+  if (!user) {
+    return res.status(401).json({
+      message: 'Invalid username/email or password'
+    })
+  }
+
+  if (user.password !== password) {
+    return res.status(401).json({
+      message: 'Invalid username/email or password'
+    })
+  }
+
+  res.json({
+    _id: user._id,
+    username: user.username,
+    email: user.email
+  })
+})
 
 export default router;

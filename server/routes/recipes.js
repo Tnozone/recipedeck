@@ -14,7 +14,7 @@ router.post("/", async (req, res) => {
 
     await recipe.save();
 
-    res.json(recipe);
+    res.status(201).json(recipe)
 });
 
 router.get("/user/:username", async (req, res) => {
@@ -24,5 +24,20 @@ router.get("/user/:username", async (req, res) => {
 
     res.json(recipes);
 });
+
+router.get('/:id', async (req, res) => {
+  try {
+    const recipe = await Recipe.findById(req.params.id)
+
+    if (!recipe) {
+      return res.status(404).json({ message: 'Recipe not found' })
+    }
+
+    res.json(recipe)
+  }
+  catch (err) {
+    res.status(500).json({ message: err.message })
+  }
+})
 
 export default router;

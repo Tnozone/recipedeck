@@ -148,7 +148,7 @@ async function register() {
 .strength-bar {
   flex: 1;
   height: 10px;
-  background-color: #e9ecef;
+  background-color: #fff;
   border-radius: 5px;
 }
 

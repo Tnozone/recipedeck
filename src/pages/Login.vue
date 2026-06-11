@@ -2,15 +2,15 @@
   <div class="container p-3">
     <div class="card p-4">
       <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 text-center">Log In</h3>
-      <form @submit.prevent="login">
-        <!-- Email input -->
+      <form @submit.prevent="handlelogin">
+        <!-- Identifier input -->
         <div data-mdb-input-init class="form-outline mb-4">
           <input 
-            v-model="email"
-            type="email" 
+            v-model="loginIdentifier"
+            type="text" 
             class="form-control" 
           />
-          <label class="form-label" for="form2Example1">Email address</label>
+          <label class="form-label">Username or email</label>
         </div>
 
         <!-- Password input -->
@@ -69,28 +69,45 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { login } from '../stores/auth'
 
-const email = ref('')
+const router = useRouter()
+
+const loginIdentifier = ref('')
 const password = ref('')
 
-const response = await fetch(
-  "http://localhost:3000/api/users/login",
-  {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      email: email.value,
-      password: password.value
-    })
+async function handlelogin() {
+  try {
+    const response = await fetch(
+      'http://localhost:3000/api/users/login',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          loginIdentifier: loginIdentifier.value,
+          password: password.value
+        })
+      }
+    )
+
+    if (!response.ok) {
+      const error = await response.json()
+      alert(error.message || 'Login failed')
+      return
+    }
+
+    const user = await response.json()
+
+    login(user)
+
+    router.push('/')
   }
-)
-
-const user = await response.json()
-
-localStorage.setItem(
-  "currentUser",
-  JSON.stringify(user)
-)
+  catch (err) {
+    console.error(err)
+    alert('Could not connect to server')
+  }
+}
 </script>
