@@ -24,7 +24,7 @@ const recipes = ref([])
 
 onMounted(async () => {
   const response = await fetch(
-    `http://localhost:3000/api/recipes/user/${currentUser.username}`
+    `http://localhost:3000/api/recipes/user/${currentUser.value.username}`
   )
 
   recipes.value = await response.json()

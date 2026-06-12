@@ -18,16 +18,15 @@
 <script setup>
 import RecipeCard from '../components/RecipeCard.vue'
 import { ref, onMounted } from 'vue'
+import { currentUser } from '../stores/auth'
 
 const recipes = ref([])
 
-const currentUser = JSON.parse(
-  localStorage.getItem('currentUser') ?? 'null'
-)
-
 onMounted(async () => {
+  if (!currentUser.value) return
+
   const response = await fetch(
-    `http://localhost:3000/api/recipes/user/${currentUser.username}`
+    `http://localhost:3000/api/users/${currentUser.value.username}/favorites`
   )
 
   recipes.value = await response.json()

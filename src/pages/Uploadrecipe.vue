@@ -75,6 +75,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { currentUser } from '../stores/auth'
 
 const router = useRouter()
 
@@ -84,11 +85,8 @@ const ingredients = ref('')
 const steps = ref('')
 
 async function addRecipe() {
-  const currentUser = JSON.parse(
-    localStorage.getItem('currentUser') ?? 'null'
-  )
 
-  if (!currentUser) {
+  if (!currentUser.value) {
     alert('You must be logged in.')
     return
   }

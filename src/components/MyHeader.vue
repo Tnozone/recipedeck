@@ -79,6 +79,7 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import { logout } from '../stores/auth'
+import { currentUser } from '../stores/auth'
 
 const router = useRouter()
 
@@ -88,11 +89,8 @@ function handleLogout() {
 }
 
 async function deleteAccount() {
-  const currentUser = JSON.parse(
-    localStorage.getItem('currentUser') ?? 'null'
-  )
-
-  if (!currentUser) {
+  
+  if (!currentUser.value) {
     return
   }
 
@@ -106,7 +104,7 @@ async function deleteAccount() {
 
   try {
     const response = await fetch(
-      `http://localhost:3000/api/users/${currentUser.username}`,
+      `http://localhost:3000/api/users/${currentUser.value.username}`,
       {
         method: 'DELETE'
       }
@@ -118,7 +116,7 @@ async function deleteAccount() {
       return
     }
 
-    localStorage.removeItem('currentUser')
+    logout()
 
     alert('Account deleted.')
 

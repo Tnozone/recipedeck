@@ -102,4 +102,16 @@ router.delete('/:username', async (req, res) => {
   }
 })
 
+router.get('/:username/favorites', async (req, res) => {
+  const user = await User.findOne({
+    username: req.params.username
+  })
+
+  const recipes = await Recipe.find({
+    _id: { $in: user.favorites }
+  })
+
+  res.json(recipes)
+})
+
 export default router;
