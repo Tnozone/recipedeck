@@ -40,7 +40,7 @@
 
             <a href="#" @click.prevent="handleLogout" class="nav-link text-white fs-4">Log Out</a>
 
-            <a href="#" @click.prevent="deleteAccount" class="nav-link text-white fs-4">Delete Account</a>
+            <a href="#" @click.prevent="deleteAccount" class="nav-link fs-4 delete-link">Delete Account</a>
           </div>
         </div>
       </div>
@@ -71,8 +71,12 @@
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255,255,255,1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
-.navbar-nav:last-child .nav-link:hover, .navbar-nav:last-child .nav-link:focus {
-  color: #dc3545
+.delete-link {
+  color: #fff;
+}
+
+.delete-link:hover, .delet-link:focus {
+  color: #dc3545;
 }
 </style>
 

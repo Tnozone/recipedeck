@@ -73,12 +73,14 @@ function toggleFavorite() {
 </script>
 
 <style scoped>
-.card-title {
+.card-title router-link {
     color: #ffc107;
+    text-decoration: none;
 }
 
 .card {
     border-style: double;
     border-color: #ffc107;
+    -webkit-mask-image: radial-gradient(circle 10px at 0 0, transparent 0, transparent 20px, black 21px);
 }
 </style>
