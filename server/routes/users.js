@@ -2,6 +2,8 @@ import express from "express";
 const router = express.Router();
 
 import User from "../models/User.js";
+import Recipe from '../models/Recipe.js'
+
 
 router.post("/register", async (req, res) => {
     const existingUser = await User.findOne({
@@ -48,6 +50,33 @@ router.post('/login', async (req, res) => {
     username: user.username,
     email: user.email
   })
+})
+
+router.delete('/:username', async (req, res) => {
+  try {
+    const user = await User.findOneAndDelete({
+      username: req.params.username
+    })
+
+    if (!user) {
+      return res.status(404).json({
+        message: 'User not found'
+      })
+    }
+
+     await Recipe.deleteMany({
+      username: req.params.username
+    })
+
+    res.json({
+      message: 'Account and recipes deleted'
+    })
+  }
+  catch (err) {
+    res.status(500).json({
+      message: err.message
+    })
+  }
 })
 
 export default router;

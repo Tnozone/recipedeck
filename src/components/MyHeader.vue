@@ -40,7 +40,7 @@
 
             <a href="#" @click.prevent="handleLogout" class="nav-link text-white fs-4">Log Out</a>
 
-            <a href="/" class="nav-link text-white fs-4">Delete Account</a>
+            <a href="#" @click.prevent="deleteAccount" class="nav-link text-white fs-4">Delete Account</a>
           </div>
         </div>
       </div>
@@ -85,5 +85,48 @@ const router = useRouter()
 function handleLogout() {
   logout()
   router.push('/')
+}
+
+async function deleteAccount() {
+  const currentUser = JSON.parse(
+    localStorage.getItem('currentUser') ?? 'null'
+  )
+
+  if (!currentUser) {
+    return
+  }
+
+  const confirmed = confirm(
+    'Are you sure you want to delete your account? This action cannot be undone.'
+  )
+
+  if (!confirmed) {
+    return
+  }
+
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/users/${currentUser.username}`,
+      {
+        method: 'DELETE'
+      }
+    )
+
+    if (!response.ok) {
+      const error = await response.json()
+      alert(error.message)
+      return
+    }
+
+    localStorage.removeItem('currentUser')
+
+    alert('Account deleted.')
+
+    router.push('/')
+  }
+  catch (err) {
+    console.error(err)
+    alert('Could not connect to server.')
+  }
 }
 </script>
