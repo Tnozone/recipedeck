@@ -1,6 +1,6 @@
 <template>
   <header>
-    <h1 class="text-center bg-header py-3 mb-0 bg-header text-white fs-1">Recipedeck</h1>
+    <h1 class="text-center bg-header py-3 mb-0 bg-header text-warning fs-1">Recipedeck</h1>
 
     <nav class="navbar navbar-expand-lg bg-header px-3 ms-auto">
       <div class="container-fluid">
@@ -50,7 +50,7 @@
 
 <style scoped>
 .bg-header {
-  background-color: #87ceeb;
+  background-color: #5FA06D;
 }
 
 .nav-link {

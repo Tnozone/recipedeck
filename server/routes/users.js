@@ -1,4 +1,6 @@
 import express from "express";
+import mongoose from 'mongoose'
+
 const router = express.Router();
 
 import User from "../models/User.js";
@@ -71,7 +73,8 @@ router.post('/login', async (req, res) => {
   res.json({
     _id: user._id,
     username: user.username,
-    email: user.email
+    email: user.email,
+    favorites: user.favorites || []
   })
 })
 
@@ -102,16 +105,73 @@ router.delete('/:username', async (req, res) => {
   }
 })
 
+router.post('/:username/favorites/:recipeId', async (req, res) => {
+  try {
+
+    const user = await User.findOne({ username: req.params.username })
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' })
+    }
+
+    const recipeIdStr = req.params.recipeId
+
+    const recipeId = new mongoose.Types.ObjectId(recipeIdStr)
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.recipeId)) {
+      return res.status(400).json({
+        message: 'Invalid recipeId format',
+        recipeId: req.params.recipeId
+      })
+    }
+
+    // ensure array
+    if (!Array.isArray(user.favorites)) {
+      user.favorites = []
+    }
+
+    const index = user.favorites.findIndex(fav =>
+      fav?.toString() === recipeId.toString()
+    )
+
+    if (index === -1) {
+      user.favorites.push(recipeId)
+    } else {
+      user.favorites.splice(index, 1)
+    }
+
+    await user.save()
+
+    res.json(user.favorites)
+  }
+  catch (err) {
+    console.error(err)
+    console.error(err.stack)
+
+    res.status(500).json({
+      message: err.message,
+      name: err.name
+    })
+  }
+})
+
 router.get('/:username/favorites', async (req, res) => {
-  const user = await User.findOne({
-    username: req.params.username
-  })
+  try {
+    const user = await User.findOne({ username: req.params.username })
 
-  const recipes = await Recipe.find({
-    _id: { $in: user.favorites }
-  })
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' })
+    }
 
-  res.json(recipes)
+    const recipes = await Recipe.find({
+      _id: { $in: user.favorites }
+    })
+
+    res.json(recipes)
+  }
+  catch (err) {
+    res.status(500).json({ message: err.message })
+  }
 })
 
 export default router;

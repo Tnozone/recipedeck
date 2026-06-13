@@ -9,7 +9,10 @@
         :key="recipe.id"
         class="col-md-4 mb-4"
       >
-        <RecipeCard :recipe="recipe" />
+        <RecipeCard 
+          :recipe="recipe"
+          @deleted="removeRecipe" 
+        />
       </div>
     </div>
   </div>
@@ -29,4 +32,10 @@ onMounted(async () => {
 
   recipes.value = await response.json()
 })
+
+function removeRecipe(recipeId) {
+  recipes.value = recipes.value.filter(
+    recipe => recipe._id !== recipeId
+  )
+}
 </script>

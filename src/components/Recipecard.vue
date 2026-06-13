@@ -24,6 +24,11 @@
                     ? 'bi bi-star-fill text-warning'
                     : 'bi bi-star text-warning'"
             ></i>
+            <button 
+              v-if="isOwner"
+              @click="deleteRecipe" 
+              class="btn btn-danger">
+            Delete</button>
         </div>
     </div>
 </template>
@@ -32,55 +37,116 @@
 import { computed } from 'vue'
 import { currentUser } from '../stores/auth'
 
-defineProps({
+const props = defineProps({
   recipe: {
     type: Object,
     required: true
   }
 })
 
+const isOwner = computed(() => {
+  return (
+    currentUser.value &&
+    currentUser.value.username === props.recipe.username
+  )
+})
+
 const isFavorite = computed(() => {
   if (!currentUser.value) return false
 
-  const favorites = currentUser.favorites || []
+  const favorites = Array.isArray(currentUser.value.favorites)
+    ? currentUser.value.favorites
+    : []
 
-  return favorites.includes(props.recipe._id)
+  return favorites.some(fav =>
+    fav.toString?.() === props.recipe._id
+  )
 })
 
-function toggleFavorite() {
+const emit = defineEmits([
+  'favoriteChanged',
+  'deleted'
+])
+
+async function toggleFavorite() {
   if (!currentUser.value) {
-    alert('Please log in to favorite recipes.')
+    alert('Please log in')
     return
   }
 
-  currentUser.favorites ??= []
+  const recipeId = props.recipe._id
 
-  const index = currentUser.favorites.indexOf(
-    props.recipe._id
+  const response = await fetch(
+    `http://localhost:3000/api/users/${currentUser.value.username}/favorites/${recipeId}`,
+    {
+      method: 'POST'
+    }
   )
 
-  if (index === -1) {
-    currentUser.favorites.push(props.recipe._id)
-  } else {
-    currentUser.favorites.splice(index, 1)
-  }
+  const updatedFavorites = await response.json()
+
+  currentUser.value.favorites = updatedFavorites
 
   localStorage.setItem(
     'currentUser',
-    JSON.stringify(currentUser)
+    JSON.stringify(currentUser.value)
   )
+
+  emit('favoriteChanged', {
+    recipeId: props.recipe._id,
+    isFavorite: updatedFavorites.some(
+      fav => fav.toString() === props.recipe._id
+    )
+  })
+}
+
+async function deleteRecipe() {
+  const confirmed = confirm(
+    'Are you sure you want to delete this recipe?'
+  )
+
+  if (!confirmed) return
+
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/recipes/${props.recipe._id}`,
+      {
+        method: 'DELETE'
+      }
+    )
+
+    if (!response.ok) {
+      throw new Error('Delete failed')
+    }
+
+    emit('deleted', props.recipe._id)
+  }
+  catch (err) {
+    console.error(err)
+    alert('Could not delete recipe')
+  }
 }
 </script>
 
 <style scoped>
 .card-title router-link {
-    color: #ffc107;
-    text-decoration: none;
+  color: #ffc107;
+  text-decoration: none;
 }
 
 .card {
-    border-style: double;
-    border-color: #ffc107;
-    -webkit-mask-image: radial-gradient(circle 10px at 0 0, transparent 0, transparent 20px, black 21px);
+  border-style: double;
+  border-color: #ffc107;
+  -webkit-mask-image: radial-gradient(circle 10px at 0 0, transparent 0, transparent 20px, black 21px);
+}
+
+.card-footer i {
+  font-size: 1.5rem;
+  cursor: pointer;
+  /* user-select: none; */
+}
+
+.card-footer i:hover {
+  transform: scale(1.1);
 }
 </style>

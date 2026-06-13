@@ -107,7 +107,7 @@ async function addRecipe() {
             .filter(tag => tag.length > 0),
           ingredients: ingredients.value,
           steps: steps.value,
-          username: currentUser.username
+          username: currentUser.value.username
         })
       }
     )
