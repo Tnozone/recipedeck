@@ -14,6 +14,7 @@
             <p class="card-text">{{ recipe.steps }}</p>
         </div>
         <div class="card-footer">
+          <div class="d-flex justify-content-between">
             <p class="card-text">Posted by <router-link :to="`/user/${recipe.username}`">
                 {{ recipe.username }}
             </router-link></p>
@@ -24,11 +25,12 @@
                     ? 'bi bi-star-fill text-warning'
                     : 'bi bi-star text-warning'"
             ></i>
-            <button 
-              v-if="isOwner"
-              @click="deleteRecipe" 
-              class="btn btn-danger">
-            Delete</button>
+          </div>
+          <button 
+            v-if="isOwner"
+            @click="deleteRecipe" 
+            class="btn btn-danger">
+          Delete</button>
         </div>
     </div>
 </template>
