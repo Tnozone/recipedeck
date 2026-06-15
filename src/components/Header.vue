@@ -1,14 +1,17 @@
 <template>
-  <header>
-    <h1 class="text-center bg-header py-3 mb-0 bg-header text-warning fs-1">Recipedeck</h1>
+  <header class="bg-header">
+    <div class="d-flex align-items-center justify-content-center gap-2">
+      <img src="../../public/recipedeck-logo.png" alt="recipedeck logo" class="logo" />
+      <h1 class="text-center py-3 mb-0 text-warning fs-1">Recipedeck</h1>
+    </div>
 
-    <nav class="navbar navbar-expand-lg bg-header px-3 ms-auto">
+    <nav class="navbar navbar-expand-lg px-3 ms-auto">
       <div class="container-fluid">
         <button
           class="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#mainNavbar"
+          data-bs-target="#guestNavbar"
           aria-controls="mainNavbar"
           aria-expanded="false"
           aria-label="Toggle navigation"
@@ -19,7 +22,7 @@
         <!-- Collapsible menu -->
         <div
           class="collapse navbar-collapse"
-          id="mainNavbar"
+          id="guestNavbar"
         >
           <div class="navbar-nav ms-auto">
             <router-link to="/" class="nav-link text-white fs-4">
@@ -55,6 +58,12 @@
 <style scoped>
 .bg-header {
   background-color: #5FA06D;
+}
+
+.logo {
+  height: 3rem;
+  width: 3rem;
+  object-fit: contain;
 }
 
 .nav-link {

@@ -9,10 +9,20 @@ import { currentUser } from './stores/auth'
 </script>
 
 <template>
-  <MyHeader v-if="currentUser" />
-  <Header v-else />
-  <router-view />
-  <Footer />
+  <div class="app">
+    <MyHeader v-if="currentUser" />
+    <Header v-else />
+    <main class="flex-grow-1">
+      <router-view />
+    </main>
+    <Footer />
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+</style>

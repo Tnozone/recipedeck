@@ -1,5 +1,5 @@
 <template>
-    <div class="card p-2">
+    <div class="card recipe-card">
         <div class="card-header">
             <h5 class="card-title text-center">
                 <router-link v-if="recipe" :to="`/recipe/${recipe._id}`"
@@ -15,7 +15,7 @@
             <p class="card-text">{{ recipe.steps }}</p>
         </div>
         <div class="card-footer">
-          <div class="d-flex justify-content-between">
+          <div class="d-flex justify-content-between mb-3">
             <p class="card-text">Posted by <router-link :to="`/user/${recipe.username}`">
                 {{ recipe.username }}
             </router-link></p>
@@ -27,11 +27,13 @@
                     : 'bi bi-star text-warning'"
             ></i>
           </div>
-          <button 
-            v-if="isOwner"
-            @click="deleteRecipe" 
-            class="btn btn-danger">
-          Delete</button>
+          <div class="d-flex justify-content-end">
+            <button 
+              v-if="isOwner"
+              @click="deleteRecipe" 
+              class="btn btn-danger">
+            Delete</button>
+          </div>
         </div>
     </div>
 </template>
@@ -142,10 +144,17 @@ async function deleteRecipe() {
   text-decoration: underline;
 }
 
-.card {
+.recipe-card {
   border-style: double;
+  border-width: medium;
   border-color: #ffc107;
-  -webkit-mask-image: radial-gradient(circle 10px at 0 0, transparent 0, transparent 20px, black 21px);
+  border-radius: 5% 15%;
+  overflow: hidden;
+  padding: 0;
+}
+
+.card-body {
+  padding: 1rem;
 }
 
 .card-footer i {

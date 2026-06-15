@@ -2,7 +2,7 @@
   <div class="container p-5 justify-content-center align-items-center">
     <h1 class="fs-1 text-danger">404 - Page not found</h1>
     <p class="text-danger">The page "{{ route.fullPath }}" does not exist.</p>
-    <router-link to="/" class="btn btn-primary">
+    <router-link to="/" class="link fs-5">
       Return Home
     </router-link>
   </div>

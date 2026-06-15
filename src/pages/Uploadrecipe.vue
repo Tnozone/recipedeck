@@ -39,7 +39,7 @@
             v-model="ingredients"
             class="form-control"
             rows="5"
-            placeholder="One ingredient per line"
+            placeholder="seperate ingredients with commas"
             required
           ></textarea>
         </div>

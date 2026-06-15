@@ -4,7 +4,7 @@
       <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 text-center">Register</h3>
       <form @submit.prevent="register">
 
-        <div data-mdb-input-init class="form-outline mb-4">
+        <div data-mdb-input-init class="form-outline mb-4 col-md-8">
           <input 
             v-model="username"
             type="text" 
@@ -13,7 +13,7 @@
           <label class="form-label">Username</label>
         </div>
 
-        <div data-mdb-input-init class="form-outline mb-4">
+        <div data-mdb-input-init class="form-outline mb-4 col-md-8">
           <input 
             v-model="email"
             type="email" 
@@ -22,7 +22,7 @@
           <label class="form-label">Email</label>
         </div>
 
-        <div data-mdb-input-init class="form-outline mb-4">
+        <div data-mdb-input-init class="form-outline mb-4 col-md-8">
           <input 
             v-model="password"
             type="password" 
@@ -30,36 +30,36 @@
           />
           <label class="form-label">Password</label>
         </div>
-        <div class="strength-meter mb-3">
+        <div class="strength-meter mb-3 col-md-8">
           <div
-            class="strength-bar"
-            :class="{ active: passwordStrength >= 1, weak: passwordStrength === 1 }"
+            class="strength-bar col-2"
+            :class="getBarClass(1)"
           ></div>
 
           <div
-            class="strength-bar"
-            :class="{ active: passwordStrength >= 2, medium: passwordStrength === 2 }"
+            class="strength-bar col-2"
+            :class="getBarClass(2)"
           ></div>
 
           <div
-            class="strength-bar"
-            :class="{ active: passwordStrength >= 3, strong: passwordStrength === 3 }"
+            class="strength-bar col-2"
+            :class="getBarClass(3)"
           ></div>
         </div>
 
-        <small v-if="passwordStrength === 1" class="text-danger">
+        <small v-if="passwordStrength === 1" class="text-danger mb-2">
           Weak
         </small>
 
-        <small v-else-if="passwordStrength === 2" class="text-warning">
+        <small v-else-if="passwordStrength === 2" class="text-warning mb-2">
           Medium
         </small>
 
-        <small v-else-if="passwordStrength === 3" class="text-success">
+        <small v-else-if="passwordStrength === 3" class="text-success mb-2">
           Strong
         </small>
 
-        <div data-mdb-input-init class="form-outline mb-4">
+        <div data-mdb-input-init class="form-outline mb-4 col-md-8">
           <input 
             v-model="confirmPassword"
             type="password" 
@@ -70,7 +70,7 @@
 
         <div class="d-flex justify-content-center">
           <button  type="submit" data-mdb-button-init
-            data-mdb-ripple-init class="btn btn-success btn-block btn-lg gradient-custom-4 text-body text-white">Register</button>
+            data-mdb-ripple-init class="btn btn-success btn-block btn-lg gradient-custom-4 text-white">Register</button>
         </div>
 
         <p class="text-center text-muted mt-5 mb-0">Have already an account? <router-link to="/login">Login here</router-link></p>
@@ -99,6 +99,14 @@ const passwordStrength = computed(() => {
   if (len > 0) return 1
   return 0
 })
+
+function getBarClass(index) {
+  if (passwordStrength.value < index) return ''
+
+  if (passwordStrength.value === 1) return 'weak'
+  if (passwordStrength.value === 2) return 'medium'
+  if (passwordStrength.value >= 3) return 'strong'
+}
 
 async function register() {
   if (password.value !== confirmPassword.value) {
@@ -152,15 +160,24 @@ async function register() {
   border-radius: 5px;
 }
 
-.strength-bar.active.weak {
+.strength-bar.weak {
   background-color: #dc3545;
 }
 
-.strength-bar.active.medium {
+.strength-bar.medium {
   background-color: #ffc107;
 }
 
-.strength-bar.active.strong {
+.strength-bar.strong {
   background-color: #198754;
+}
+
+.btn-success {
+  color: #fff;
+  background-color: #5FA06D;
+}
+
+.btn-success:hover {
+  background-color: #3c7448;
 }
 </style>

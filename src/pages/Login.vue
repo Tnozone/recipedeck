@@ -4,7 +4,7 @@
       <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 text-center">Log In</h3>
       <form @submit.prevent="handlelogin">
         <!-- Identifier input -->
-        <div data-mdb-input-init class="form-outline mb-4">
+        <div data-mdb-input-init class="form-outline mb-4 col-md-8">
           <input 
             v-model="loginIdentifier"
             type="text" 
@@ -14,7 +14,7 @@
         </div>
 
         <!-- Password input -->
-        <div data-mdb-input-init class="form-outline mb-4">
+        <div data-mdb-input-init class="form-outline mb-4 col-md-8">
           <input 
             v-model="password"
             type="password" 
@@ -40,32 +40,45 @@
         </div>
 
         <!-- Submit button -->
-        <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Sign in</button>
+        <div class="d-flex justify-content-center">
+          <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-success btn-block mb-4">Sign in</button>
+        </div>
 
         <!-- Register buttons -->
         <div class="text-center">
           <p>Not a member? <router-link to="/signup">Register</router-link></p>
           <p>or sign up with:</p>
           <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
-            <i class="fab fa-facebook-f"></i>
+            <i class="bi bi-facebook-f"></i>
           </button>
 
           <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
-            <i class="fab fa-google"></i>
+            <i class="bi bi-google"></i>
           </button>
 
           <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
-            <i class="fab fa-twitter"></i>
+            <i class="bi bi-twitter-x"></i>
           </button>
 
           <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
-            <i class="fab fa-github"></i>
+            <i class="bi bi-github"></i>
           </button>
         </div>
       </form>
     </div>
   </div>
 </template>
+
+<style scoped>
+
+.btn-success:hover {
+  background-color: #3c7448;
+}
+
+.btn-success:hover {
+  background-color: #3c7448;
+}
+</style>
 
 <script setup>
 import { ref } from 'vue'

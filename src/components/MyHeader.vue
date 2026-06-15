@@ -1,8 +1,11 @@
 <template>
-  <header>
-    <h1 class="text-center bg-header py-3 mb-0 bg-header text-warning fs-1">Recipedeck</h1>
+  <header class="bg-header">
+    <div class="d-flex align-items-center justify-content-center gap-2">
+      <img src="../../public/recipedeck-logo.png" alt="recipedeck logo" class="logo" />
+      <h1 class="text-center py-3 mb-0 text-warning fs-1">Recipedeck</h1>
+    </div>
 
-    <nav class="navbar navbar-expand-lg bg-header px-3 ms-auto">
+    <nav class="navbar navbar-expand-lg px-3 ms-auto">
       <div class="container-fluid">
         <button
           class="navbar-toggler"
@@ -51,6 +54,12 @@
 <style scoped>
 .bg-header {
   background-color: #5FA06D;
+}
+
+.logo {
+  height: 3rem;
+  width: 3rem;
+  object-fit: contain;
 }
 
 .nav-link {

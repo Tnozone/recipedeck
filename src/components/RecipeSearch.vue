@@ -1,7 +1,7 @@
 <template>
-  <div class="card p-3 mb-4">
+  <div class="p-3 mb-4">
     <div class="row g-2 d-flex justify-content-center">
-      <div class="col-md-8">
+      <div class="col-md-5">
         <input
           v-model="search"
           class="form-control"
