@@ -2,7 +2,8 @@
     <div class="card p-2">
         <div class="card-header">
             <h5 class="card-title text-center">
-                <router-link v-if="recipe" :to="`/recipe/${recipe._id}`">
+                <router-link v-if="recipe" :to="`/recipe/${recipe._id}`"
+                class="recipe-link">
                     {{ recipe.name }}
                 </router-link>
             </h5>
@@ -131,9 +132,14 @@ async function deleteRecipe() {
 </script>
 
 <style scoped>
-.card-title router-link {
+.recipe-link {
   color: #ffc107;
   text-decoration: none;
+}
+
+.recipe-link:hover {
+  color: #d29f03;
+  text-decoration: underline;
 }
 
 .card {

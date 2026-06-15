@@ -1,11 +1,12 @@
 <template>
   <div>
-    <p class="text-center mt-3 mb-3">Welcome. Upload a recipe or browse for one you like.</p>
+    <p class="text-center mt-3 mb-3 fs-5">Welcome. Upload a recipe or browse for one you like.</p>
+    <RecipeSearch @search="filterRecipes" class="m-3" />
   </div>
   <div class="container">
     <div class="row">
       <div
-        v-for="recipe in recipes"
+        v-for="recipe in filteredRecipes"
         :key="recipe._id"
         class="col-md-4 mb-4"
       >
@@ -20,9 +21,12 @@
 
 <script setup>
 import RecipeCard from '../components/RecipeCard.vue'
-import { ref, onMounted } from 'vue'
+import RecipeSearch from '../components/RecipeSearch.vue'
+import { ref, computed, onMounted } from 'vue'
 
 const recipes = ref([])
+const searchText = ref('')
+const searchMode = ref('name')
 
 onMounted(async () => {
   const response = await fetch(
@@ -34,6 +38,32 @@ onMounted(async () => {
   console.log(data)
 
   recipes.value = data
+})
+
+function filterRecipes({ text, mode }) {
+
+  searchText.value = text
+  searchMode.value = mode
+}
+
+const filteredRecipes = computed(() => {
+  if (!searchText.value.trim()) {
+    return recipes.value
+  }
+
+  const query = searchText.value.toLowerCase()
+
+  if (searchMode.value === 'name') {
+    return recipes.value.filter(recipe =>
+      recipe.name.toLowerCase().includes(query)
+    )
+  }
+
+  return recipes.value.filter(recipe =>
+    recipe.tags.some(tag =>
+      tag.toLowerCase().includes(query)
+    )
+  )
 })
 
 function removeRecipe(recipeId) {

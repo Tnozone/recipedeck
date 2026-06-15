@@ -56,7 +56,7 @@
             required
           ></textarea>
           <small class="text-muted">
-            One step per line.
+            One step per line. Please end steps with a comma or period.
           </small>
         </div>
 

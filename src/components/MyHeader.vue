@@ -75,7 +75,7 @@
   color: #fff;
 }
 
-.delete-link:hover, .delet-link:focus {
+.delete-link:hover, .delete-link:focus {
   color: #dc3545;
 }
 </style>
