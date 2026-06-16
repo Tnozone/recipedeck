@@ -65,16 +65,13 @@ const router = createRouter({
 })
 
 // if page requires logged in user, redirect to login page.
-router.beforeEach((to, from, next) => {
-  const currentUser = computed(() => {
-    const user = localStorage.getItem('currentUser')
-    return user ? JSON.parse(user) : null
-  })
+router.beforeEach((to) => {
+  const currentUser = JSON.parse(
+    localStorage.getItem('currentUser') ?? 'null'
+  )
 
   if (to.meta.requiresAuth && !currentUser) {
-    next('/login')
-  } else {
-    next()
+    return '/login'
   }
 })
 

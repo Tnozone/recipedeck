@@ -8,12 +8,22 @@
                 </router-link>
             </h5>
         </div>
-        <div class="card-body">
+        <div class="card-body"
+        >
+        <!-- :class="{ collapsed: !expanded }" -->
             <h5 class="fs-6 fw-bold">Ingredients:</h5>
             <p class="card-text">{{ recipe.ingredients }}</p>
             <h5 class=" fs-6 fw-bold">Steps:</h5>
             <p class="card-text">{{ recipe.steps }}</p>
         </div>
+        <!-- <div class="text-center mb-2">
+          <button
+            class="btn btn-link p-0"
+            @click="expanded = !expanded"
+          >
+            {{ expanded ? 'Show less' : 'Show more' }}
+          </button>
+        </div> -->
         <div class="card-footer">
           <div class="d-flex justify-content-between mb-3">
             <p class="card-text">Posted by <router-link :to="`/user/${recipe.username}`">
@@ -39,7 +49,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { currentUser } from '../stores/auth'
 
 const props = defineProps({
@@ -48,6 +58,8 @@ const props = defineProps({
     required: true
   }
 })
+
+// const expanded = ref(false)
 
 const isOwner = computed(() => {
   return (
@@ -153,14 +165,39 @@ async function deleteRecipe() {
   padding: 0;
 }
 
+/* .card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .card-body {
   padding: 1rem;
+  transition: max-height 0.3s ease;
 }
+
+.card-body.collapsed {
+  max-height: 220px;
+  overflow: hidden;
+  position: relative;
+}
+
+.card-body.collapsed::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 50px;
+  background: linear-gradient(
+    transparent,
+    white
+  );
+} */
 
 .card-footer i {
   font-size: 1.5rem;
   cursor: pointer;
-  /* user-select: none; */
 }
 
 .card-footer i:hover {

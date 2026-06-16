@@ -10,14 +10,18 @@
         :key="recipe._id"
         class="col-md-4 mb-4"
       >
+      <!-- d-flex align-items-stretch -->
         <RecipeCard 
-          :recipe="recipe" 
+          :recipe="recipe"
           @deleted="removeRecipe" 
         />
+        <!-- class="h-100 -->
       </div>
     </div>
   </div>
 </template>
+
+<style scoped></style>
 
 <script setup>
 import RecipeCard from '../components/RecipeCard.vue'
@@ -39,6 +43,16 @@ onMounted(async () => {
 
   recipes.value = data
 })
+
+// const expandedRecipes = ref(new Set())
+
+// function toggleExpanded(id) {
+//   if (expandedRecipes.value.has(id)) {
+//     expandedRecipes.value.delete(id)
+//   } else {
+//     expandedRecipes.value.add(id)
+//   }
+// }
 
 function filterRecipes({ text, mode }) {
 

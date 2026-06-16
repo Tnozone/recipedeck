@@ -25,4 +25,8 @@ import { currentUser } from './stores/auth'
   display: flex;
   flex-direction: column;
 }
+
+main {
+  background-color: rgb(200, 200, 200);
+}
 </style>
