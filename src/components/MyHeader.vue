@@ -101,6 +101,7 @@ function handleLogout() {
   router.push('/')
 }
 
+// delete account function
 async function deleteAccount() {
   
   if (!currentUser.value) {
@@ -129,6 +130,7 @@ async function deleteAccount() {
       return
     }
 
+    // logout after successful deletion
     logout()
 
     alert('Account deleted.')

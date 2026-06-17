@@ -10,6 +10,7 @@
         >
       </div>
 
+      <!-- selection for search type -->
       <div class="col-4 col-md-2">
         <select v-model="mode" class="form-select">
           <option value="name">Recipe name</option>

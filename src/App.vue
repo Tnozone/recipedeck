@@ -27,6 +27,6 @@ import { currentUser } from './stores/auth'
 }
 
 main {
-  background-color: rgb(200, 200, 200);
+  background-color: rgb(160, 200, 245);
 }
 </style>

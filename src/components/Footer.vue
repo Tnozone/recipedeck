@@ -10,6 +10,8 @@
             A platform for freely sharing recipes between people. Let your culinary world expand.
           </p>
         </div>
+        
+        <!-- navigation links -->
         <nav class="d-flex flex-column col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
           <h6 class="text-uppercase mb-4 font-weight-bold text-warning">Navigation</h6>
           <router-link to="/" class="nav-link text-white">Home</router-link>
@@ -17,6 +19,8 @@
           <router-link to="/recipes" class="nav-link text-white">My Recipes</router-link>
           <router-link to="/fav" class="nav-link text-white">Favorite Recipes</router-link>
         </nav>
+
+        <!-- contact information -->
         <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
           <h6 class="text-uppercase mb-4 font-weight-bold text-warning">Contact</h6>
           <p><i class="bi bi-house-fill mr-3"></i> Garches 92380, FR</p>

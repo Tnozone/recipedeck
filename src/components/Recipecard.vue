@@ -61,6 +61,7 @@ const props = defineProps({
 
 // const expanded = ref(false)
 
+// checks if the current user is the recipe's publisher
 const isOwner = computed(() => {
   return (
     currentUser.value &&
@@ -85,6 +86,7 @@ const emit = defineEmits([
   'deleted'
 ])
 
+// adds and removes recipe from favorites array in the database
 async function toggleFavorite() {
   if (!currentUser.value) {
     alert('Please log in')
@@ -117,7 +119,14 @@ async function toggleFavorite() {
   })
 }
 
+// deletes the recipe, button only available for the recipe publisher
 async function deleteRecipe() {
+  if (recipe.username !== req.user.username) {
+    return res.status(403).json({
+        message: 'Forbidden'
+    })
+  }
+  
   const confirmed = confirm(
     'Are you sure you want to delete this recipe?'
   )
