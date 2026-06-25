@@ -76,6 +76,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { currentUser } from '../stores/auth'
+import { showMessage } from '../stores/message'
 
 const router = useRouter()
 
@@ -114,11 +115,11 @@ async function addRecipe() {
 
     if (!response.ok) {
       const error = await response.json()
-      alert(error.message || 'Failed to add recipe')
+      showMessage(error.message || 'Failed to add recipe', 'danger')
       return
     }
 
-    alert('Recipe added!')
+    showMessage('Recipe added!', 'success')
 
     name.value = ''
     tags.value = ''
@@ -129,7 +130,7 @@ async function addRecipe() {
   }
   catch (err) {
     console.error(err)
-    alert('Could not connect to server')
+    showMessage('Could not connect to server', 'danger')
   }
 }
 </script>

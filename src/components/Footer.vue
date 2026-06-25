@@ -41,7 +41,7 @@
 <style scoped>
 
 footer {
-  background-color: #5FA06D;
+  background-color: var(--head-bg-color);
 }
 
 footer .nav-link {
@@ -53,7 +53,7 @@ footer .nav-link:hover, footer .nav-link:focus {
 }
 
 footer i {
-  color: #ffc107;
+  color: var(--color-gold);
 }
 
 </style>

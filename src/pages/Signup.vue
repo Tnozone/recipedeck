@@ -83,6 +83,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { showMessage } from '../stores/message'
 
 const router = useRouter()
 
@@ -110,7 +111,7 @@ function getBarClass(index) {
 
 async function register() {
   if (password.value !== confirmPassword.value) {
-    alert("Passwords do not match")
+    showMessage('Passwords do not match', 'danger')
     return
   }
 
@@ -136,7 +137,7 @@ async function register() {
       return
     }
 
-    alert("User registered!")
+    showMessage('You are registered!', 'success')
 
     router.push("/login")
   }
@@ -161,23 +162,23 @@ async function register() {
 }
 
 .strength-bar.weak {
-  background-color: #dc3545;
+  background-color: var(--color-red);
 }
 
 .strength-bar.medium {
-  background-color: #ffc107;
+  background-color: var(--color-gold);
 }
 
 .strength-bar.strong {
-  background-color: #198754;
+  background-color: var(--color-strong);
 }
 
 .btn-success {
   color: #fff;
-  background-color: #5FA06D;
+  background-color: var(--color-success);
 }
 
 .btn-success:hover {
-  background-color: #3c7448;
+  background-color: var(--color-success-hover);
 }
 </style>

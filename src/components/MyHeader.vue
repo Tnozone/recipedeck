@@ -53,7 +53,7 @@
 
 <style scoped>
 .bg-header {
-  background-color: #5FA06D;
+  background-color: var(--head-bg-color);
 }
 
 .logo {
@@ -71,7 +71,7 @@
 }
 
 .navbar-toggler {
-  border-color: rgb(255, 255, 255);
+  border-color: #fff;
 }
 
 .navbar-toggler-icon {
@@ -85,7 +85,7 @@
 }
 
 .delete-link:hover, .delete-link:focus {
-  color: #dc3545;
+  color: var(--delete-color);
 }
 </style>
 
@@ -93,6 +93,8 @@
 import { useRouter } from 'vue-router'
 import { logout } from '../stores/auth'
 import { currentUser } from '../stores/auth'
+import { showMessage } from '../stores/message'
+import { showConfirm } from '../stores/confirm'
 
 const router = useRouter()
 
@@ -108,13 +110,11 @@ async function deleteAccount() {
     return
   }
 
-  const confirmed = confirm(
+  const confirmed = await showConfirm(
     'Are you sure you want to delete your account? This action cannot be undone.'
   )
 
-  if (!confirmed) {
-    return
-  }
+  if (!confirmed) return
 
   try {
     const response = await fetch(
@@ -133,13 +133,13 @@ async function deleteAccount() {
     // logout after successful deletion
     logout()
 
-    alert('Account deleted.')
+    showMessage('Account deleted', 'success')
 
     router.push('/')
   }
   catch (err) {
     console.error(err)
-    alert('Could not connect to server.')
+    showMessage('Could not connect to server', 'danger')
   }
 }
 </script>

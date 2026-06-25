@@ -1,0 +1,28 @@
+:root {
+
+    --color-gold: #ffc107;
+    --color-dark-gold: #d29f03;
+    --color-light-blue: #A0C8F5;
+    --color-red: #dc3545;
+    --color-green: #5FA06D;
+    --color-dark-green: #3c7448;
+
+    --color-strong: #198754;
+
+    --color-success: var(--color-green);
+    --color-success-hover: var(--color-dark-green);
+
+    /* backgrounds */
+    --main-bg-color: var(--color-light-blue);
+    --head-bg-color: var(--color-green);
+
+    /* Card titles */
+    --title-color: var(--color-gold);
+    --title-color-hover: var(--color-dark-gold);
+
+    /* Borders */
+    --border-color: var(--color-gold);
+
+    /* Deletion */
+    --delete-color: var(--color-red);
+}

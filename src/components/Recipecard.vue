@@ -51,6 +51,8 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { currentUser } from '../stores/auth'
+import { showMessage } from '../stores/message'
+import { showConfirm } from '../stores/confirm'
 
 const props = defineProps({
   recipe: {
@@ -89,7 +91,7 @@ const emit = defineEmits([
 // adds and removes recipe from favorites array in the database
 async function toggleFavorite() {
   if (!currentUser.value) {
-    alert('Please log in')
+    showMessage('Please log in', 'danger')
     return
   }
 
@@ -127,7 +129,7 @@ async function deleteRecipe() {
     })
   }
   
-  const confirmed = confirm(
+  const confirmed = await showConfirm(
     'Are you sure you want to delete this recipe?'
   )
 
@@ -156,19 +158,19 @@ async function deleteRecipe() {
 
 <style scoped>
 .recipe-link {
-  color: #ffc107;
+  color: var(--title-color);
   text-decoration: none;
 }
 
 .recipe-link:hover {
-  color: #d29f03;
+  color: var(--title-color-hover);
   text-decoration: underline;
 }
 
 .recipe-card {
   border-style: double;
   border-width: medium;
-  border-color: #ffc107;
+  border-color: var(--border-color);
   border-radius: 5% 15%;
   overflow: hidden;
   padding: 0;

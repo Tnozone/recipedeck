@@ -75,15 +75,13 @@
   background-color: #3c7448;
 }
 
-.btn-success:hover {
-  background-color: #3c7448;
-}
 </style>
 
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { login } from '../stores/auth'
+import { showMessage } from '../stores/message'
 
 const router = useRouter()
 
@@ -108,7 +106,7 @@ async function handlelogin() {
 
     if (!response.ok) {
       const error = await response.json()
-      alert(error.message || 'Login failed')
+      showMessage(error.message || 'Log in failed', 'danger')
       return
     }
 
@@ -120,7 +118,7 @@ async function handlelogin() {
   }
   catch (err) {
     console.error(err)
-    alert('Could not connect to server')
+    showMessage('Could no connect to server', 'danger')
   }
 }
 </script>

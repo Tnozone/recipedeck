@@ -57,7 +57,7 @@
 
 <style scoped>
 .bg-header {
-  background-color: #5FA06D;
+  background-color: var(--head-bg-color);
 }
 
 .logo {
@@ -75,7 +75,7 @@
 }
 
 .navbar-toggler {
-  border-color: rgb(255, 255, 255);
+  border-color: #fff;
 }
 
 .navbar-toggler-icon {
