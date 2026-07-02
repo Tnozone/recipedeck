@@ -10,27 +10,18 @@
         </div>
         <div class="card-body"
         >
-        <!-- :class="{ collapsed: !expanded }" -->
             <h5 class="fs-6 fw-bold">Ingredients:</h5>
             <p class="card-text">{{ recipe.ingredients }}</p>
             <h5 class=" fs-6 fw-bold">Steps:</h5>
             <p class="card-text">{{ recipe.steps }}</p>
         </div>
-        <!-- <div class="text-center mb-2">
-          <button
-            class="btn btn-link p-0"
-            @click="expanded = !expanded"
-          >
-            {{ expanded ? 'Show less' : 'Show more' }}
-          </button>
-        </div> -->
         <div class="card-footer">
           <div class="d-flex justify-content-between mb-3">
             <p class="card-text">Posted by <router-link :to="`/user/${recipe.username}`">
                 {{ recipe.username }}
             </router-link></p>
             <i
-                v-if="currentUser"
+                v-if="user"
                 @click="toggleFavorite"
                 :class="isFavorite
                     ? 'bi bi-star-fill text-warning'
@@ -49,8 +40,8 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
-import { currentUser } from '../stores/auth'
+import { computed } from 'vue'
+import { user, token} from '../stores/auth.js'
 import { showMessage } from '../stores/message'
 import { showConfirm } from '../stores/confirm'
 
@@ -61,21 +52,19 @@ const props = defineProps({
   }
 })
 
-// const expanded = ref(false)
-
 // checks if the current user is the recipe's publisher
 const isOwner = computed(() => {
   return (
-    currentUser.value &&
-    currentUser.value.username === props.recipe.username
+    user.value &&
+    user.value.username === props.recipe.username
   )
 })
 
 const isFavorite = computed(() => {
-  if (!currentUser.value) return false
+  if (!user.value) return false
 
-  const favorites = Array.isArray(currentUser.value.favorites)
-    ? currentUser.value.favorites
+  const favorites = Array.isArray(user.value.favorites)
+    ? user.value.favorites
     : []
 
   return favorites.some(fav =>
@@ -90,7 +79,7 @@ const emit = defineEmits([
 
 // adds and removes recipe from favorites array in the database
 async function toggleFavorite() {
-  if (!currentUser.value) {
+  if (!user.value) {
     showMessage('Please log in', 'danger')
     return
   }
@@ -98,19 +87,22 @@ async function toggleFavorite() {
   const recipeId = props.recipe._id
 
   const response = await fetch(
-    `http://localhost:3000/api/users/${currentUser.value.username}/favorites/${recipeId}`,
+    `http://localhost:3000/api/users/${user.value.username}/favorites/${recipeId}`,
     {
-      method: 'POST'
+      method: 'POST',
+      headers: {
+      Authorization: `Bearer ${token.value}`
+    }
     }
   )
 
   const updatedFavorites = await response.json()
 
-  currentUser.value.favorites = updatedFavorites
+  user.value.favorites = updatedFavorites
 
   localStorage.setItem(
-    'currentUser',
-    JSON.stringify(currentUser.value)
+    'user',
+    JSON.stringify(user.value)
   )
 
   emit('favoriteChanged', {
@@ -123,10 +115,9 @@ async function toggleFavorite() {
 
 // deletes the recipe, button only available for the recipe publisher
 async function deleteRecipe() {
-  if (recipe.username !== req.user.username) {
-    return res.status(403).json({
-        message: 'Forbidden'
-    })
+  if (!isOwner.value) {
+    showMessage('Forbidden', 'danger')
+    return
   }
   
   const confirmed = await showConfirm(
@@ -139,7 +130,10 @@ async function deleteRecipe() {
     const response = await fetch(
       `http://localhost:3000/api/recipes/${props.recipe._id}`,
       {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token.value}`
+        }
       }
     )
 
@@ -175,36 +169,6 @@ async function deleteRecipe() {
   overflow: hidden;
   padding: 0;
 }
-
-/* .card {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.card-body {
-  padding: 1rem;
-  transition: max-height 0.3s ease;
-}
-
-.card-body.collapsed {
-  max-height: 220px;
-  overflow: hidden;
-  position: relative;
-}
-
-.card-body.collapsed::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 50px;
-  background: linear-gradient(
-    transparent,
-    white
-  );
-} */
 
 .card-footer i {
   font-size: 1.5rem;

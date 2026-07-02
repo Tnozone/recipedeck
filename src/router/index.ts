@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { computed } from 'vue'
+import { isAuthenticated } from '../stores/auth.js'
 
 import Home from '../pages/Home.vue'
 import Signup from '../pages/Signup.vue'
@@ -66,11 +66,7 @@ const router = createRouter({
 
 // if page requires logged in user, redirect to login page.
 router.beforeEach((to) => {
-  const currentUser = JSON.parse(
-    localStorage.getItem('currentUser') ?? 'null'
-  )
-
-  if (to.meta.requiresAuth && !currentUser) {
+  if (to.meta.requiresAuth && !isAuthenticated.value) {
     return '/login'
   }
 })

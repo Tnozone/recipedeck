@@ -80,7 +80,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { login } from '../stores/auth'
+import { fetchUser, loginToken } from '../stores/auth.js'
 import { showMessage } from '../stores/message'
 
 const router = useRouter()
@@ -110,9 +110,10 @@ async function handlelogin() {
       return
     }
 
-    const user = await response.json()
+    const data = await response.json()
 
-    login(user)
+    await loginToken(data.token)
+    await fetchUser()
 
     router.push('/')
   }

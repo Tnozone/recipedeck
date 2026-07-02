@@ -75,7 +75,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { currentUser } from '../stores/auth'
+import { token, user } from '../stores/auth.js'
 import { showMessage } from '../stores/message'
 
 const router = useRouter()
@@ -87,7 +87,7 @@ const steps = ref('')
 
 async function addRecipe() {
 
-  if (!currentUser.value) {
+  if (!token.value) {
     alert('You must be logged in.')
     return
   }
@@ -98,7 +98,8 @@ async function addRecipe() {
       {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token.value}`
         },
         body: JSON.stringify({
           name: name.value,
@@ -108,7 +109,6 @@ async function addRecipe() {
             .filter(tag => tag.length > 0),
           ingredients: ingredients.value,
           steps: steps.value,
-          username: currentUser.value.username
         })
       }
     )

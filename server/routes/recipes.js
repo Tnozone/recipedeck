@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 
 import Recipe from "../models/Recipe.js";
+import { authMiddleware } from '../middleware/auth.js'
 
 router.get("/", async (req, res) => {
     const recipes = await Recipe.find();
@@ -9,8 +10,14 @@ router.get("/", async (req, res) => {
     res.json(recipes);
 });
 
-router.post("/", async (req, res) => {
-    const recipe = new Recipe(req.body);
+router.post("/", authMiddleware, async (req, res) => {
+    const recipe = new Recipe({
+      name: req.body.name,
+      tags: req.body.tags,
+      ingredients: req.body.ingredients,
+      steps: req.body.steps,
+      username: req.user.username
+    })
 
     await recipe.save();
 

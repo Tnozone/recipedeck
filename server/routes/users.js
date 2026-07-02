@@ -1,14 +1,26 @@
 import express from "express";
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 const router = express.Router();
 
 import User from "../models/User.js";
 import Recipe from '../models/Recipe.js'
+import { authMiddleware } from '../middleware/auth.js'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 
 router.post("/register", async (req, res) => {
+  if (
+    !req.body.username?.trim() ||
+    !req.body.email?.trim() ||
+    !req.body.password?.trim()
+  ) {
+    return res.status(400).json({
+      message: 'All fields are required.'
+    })
+  }
+
   try {
     const existingUser = await User.findOne({
         email: req.body.email
@@ -33,7 +45,9 @@ router.post("/register", async (req, res) => {
 
     await user.save();
 
-    res.json(user);
+    res.status(201).json({
+      message: 'User registered successfully.'
+    })
   }
 
   catch (err) {
@@ -70,12 +84,24 @@ router.post('/login', async (req, res) => {
     })
   }
 
+  const token = jwt.sign(
+    {
+      userId: user._id,
+      username: user.username
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: '1d' }
+  )
+
   res.json({
-    _id: user._id,
-    username: user.username,
-    email: user.email,
-    favorites: user.favorites || []
+    token
   })
+})
+
+router.get('/me', authMiddleware, async (req, res) => {
+  const user = await User.findById(req.user.userId).select('-password')
+
+  res.json(user)
 })
 
 router.delete('/:username', async (req, res) => {

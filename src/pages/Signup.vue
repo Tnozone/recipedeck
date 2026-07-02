@@ -9,6 +9,7 @@
             v-model="username"
             type="text" 
             class="form-control form-control-lg" 
+            required
           />
           <label class="form-label">Username</label>
         </div>
@@ -18,6 +19,7 @@
             v-model="email"
             type="email" 
             class="form-control form-control-lg" 
+            required
           />
           <label class="form-label">Email</label>
         </div>
@@ -27,10 +29,11 @@
             v-model="password"
             type="password" 
             class="form-control form-control-lg" 
+            required
           />
           <label class="form-label">Password</label>
         </div>
-        <div class="strength-meter mb-3 col-md-8">
+        <div class="strength-meter mb-2 col-md-8">
           <div
             class="strength-bar col-2"
             :class="getBarClass(1)"
@@ -47,23 +50,26 @@
           ></div>
         </div>
 
-        <small v-if="passwordStrength === 1" class="text-danger mb-2">
-          Weak
-        </small>
+        <div class="mb-3">
+          <small v-if="passwordStrength === 1" class="text-danger mb-2">
+            Weak
+          </small>
 
-        <small v-else-if="passwordStrength === 2" class="text-warning mb-2">
-          Medium
-        </small>
+          <small v-else-if="passwordStrength === 2" class="text-warning mb-2">
+            Medium
+          </small>
 
-        <small v-else-if="passwordStrength === 3" class="text-success mb-2">
-          Strong
-        </small>
+          <small v-else-if="passwordStrength === 3" class="text-success mb-2">
+            Strong
+          </small>
+        </div>
 
         <div data-mdb-input-init class="form-outline mb-4 col-md-8">
           <input 
             v-model="confirmPassword"
             type="password" 
             class="form-control form-control-lg" 
+            required
           />
           <label class="form-label">Repeat your password</label>
         </div>
@@ -110,6 +116,17 @@ function getBarClass(index) {
 }
 
 async function register() {
+
+  if (
+    !username.value.trim() ||
+    !email.value.trim() ||
+    !password.value ||
+    !confirmPassword.value
+  ) {
+    showMessage('Please fill in all fields.', 'danger')
+    return
+  }
+  
   if (password.value !== confirmPassword.value) {
     showMessage('Passwords do not match', 'danger')
     return

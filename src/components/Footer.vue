@@ -48,8 +48,13 @@ footer .nav-link {
   text-decoration: none;
 }
 
-footer .nav-link:hover, footer .nav-link:focus {
+footer .nav-link:hover, footer .nav-link.router-link-exact-active {
   text-decoration: underline;
+}
+
+footer .nav-link:focus-visible {
+  outline: 4px solid var(--bs-warning);
+  outline-offset: 2px;
 }
 
 footer i {

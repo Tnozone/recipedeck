@@ -1,9 +1,9 @@
 <template>
-  <div v-if="state.show" class="confirm-overlay m-3">
+  <div v-if="state.show" class="confirm-overlay">
     <div class="confirm-box shadow">
       <p class="mb-3">{{ state.message }}</p>
 
-      <div class="d-flex justify-content-end gap-2">
+      <div class="d-flex justify-content-end gap-2 m-3">
         <button class="btn btn-secondary" @click="cancel">
           Cancel
         </button>
@@ -47,6 +47,8 @@ function cancel() {
   background: #fff;
   padding: 1.5rem;
   border-radius: 10px;
-  min-width: 320px;
+  width: min(92vw, 420px);
+  max-width: 420px;
+  box-sizing: border-box;
 }
 </style>

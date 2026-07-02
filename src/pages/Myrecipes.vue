@@ -21,13 +21,13 @@
 <script setup>
 import RecipeCard from '../components/RecipeCard.vue'
 import { ref, onMounted } from 'vue'
-import { currentUser } from '../stores/auth'
+import { user } from '../stores/auth.js'
 
 const recipes = ref([])
 
 onMounted(async () => {
   const response = await fetch(
-    `http://localhost:3000/api/recipes/user/${currentUser.value.username}`
+    `http://localhost:3000/api/recipes/user/${user.value.username}`
   )
 
   recipes.value = await response.json()

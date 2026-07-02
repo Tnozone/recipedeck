@@ -27,12 +27,17 @@
 import RecipeCard from '../components/RecipeCard.vue'
 import RecipeSearch from '../components/RecipeSearch.vue'
 import { ref, computed, onMounted } from 'vue'
+import { token, fetchUser } from '../stores/auth'
 
 const recipes = ref([])
 const searchText = ref('')
 const searchMode = ref('name')
 
 onMounted(async () => {
+  if (token.value) {
+    await fetchUser()
+  }
+
   const response = await fetch(
     'http://localhost:3000/api/recipes'
   )
@@ -43,16 +48,6 @@ onMounted(async () => {
 
   recipes.value = data
 })
-
-// const expandedRecipes = ref(new Set())
-
-// function toggleExpanded(id) {
-//   if (expandedRecipes.value.has(id)) {
-//     expandedRecipes.value.delete(id)
-//   } else {
-//     expandedRecipes.value.add(id)
-//   }
-// }
 
 function filterRecipes({ text, mode }) {
 

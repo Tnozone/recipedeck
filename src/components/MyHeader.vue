@@ -66,8 +66,13 @@
   font-weight: 500;
 }
 
-.nav-link:hover, .nav-link:focus {
+.nav-link:hover, .nav-link.router-link-exact-active {
   text-decoration: underline;
+}
+
+.nav-link:focus-visible {
+  outline: 4px solid var(--bs-warning);
+  outline-offset: 2px;
 }
 
 .navbar-toggler {
@@ -91,8 +96,7 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
-import { logout } from '../stores/auth'
-import { currentUser } from '../stores/auth'
+import { logout, token, user } from '../stores/auth.js'
 import { showMessage } from '../stores/message'
 import { showConfirm } from '../stores/confirm'
 
@@ -106,7 +110,7 @@ function handleLogout() {
 // delete account function
 async function deleteAccount() {
   
-  if (!currentUser.value) {
+  if (!token.value) {
     return
   }
 
@@ -118,7 +122,7 @@ async function deleteAccount() {
 
   try {
     const response = await fetch(
-      `http://localhost:3000/api/users/${currentUser.value.username}`,
+      `http://localhost:3000/api/users/${user.value.username}`,
       {
         method: 'DELETE'
       }

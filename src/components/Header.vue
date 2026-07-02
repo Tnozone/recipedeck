@@ -70,8 +70,13 @@
   font-weight: 500;
 }
 
-.nav-link:hover, .nav-link:focus {
+.nav-link:hover, .nav-link.router-link-exact-active {
   text-decoration: underline;
+}
+
+.nav-link:focus-visible {
+  outline: 4px solid var(--bs-warning);
+  outline-offset: 2px;
 }
 
 .navbar-toggler {

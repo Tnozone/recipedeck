@@ -22,7 +22,7 @@
 <script setup>
 import RecipeCard from '../components/RecipeCard.vue'
 import { ref, computed, onMounted } from 'vue'
-import { currentUser } from '../stores/auth'
+import { token, user } from '../stores/auth.js'
 import RecipeSearch from '../components/RecipeSearch.vue'
 
 const recipes = ref([])
@@ -30,10 +30,10 @@ const searchText = ref('')
 const searchMode = ref('name')
 
 onMounted(async () => {
-  if (!currentUser.value) return
+  if (!token.value) return
 
   const response = await fetch(
-    `http://localhost:3000/api/users/${currentUser.value.username}/favorites`
+    `http://localhost:3000/api/users/${user.value.username}/favorites`
   )
 
   recipes.value = await response.json()

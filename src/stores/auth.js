@@ -1,15 +1,45 @@
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
-export const currentUser = ref(
-  JSON.parse(localStorage.getItem('currentUser') ?? 'null')
+export const token = ref(
+  localStorage.getItem('token')
 )
 
-export function login(user) {
-  localStorage.setItem('currentUser', JSON.stringify(user))
-  currentUser.value = user
+export const isAuthenticated = computed(() => !!token.value)
+
+export const user = ref(null)
+
+export async function fetchUser() {
+  if (!token.value) return
+
+  const res = await fetch('http://localhost:3000/api/users/me', {
+    headers: {
+      Authorization: `Bearer ${token.value}`
+    }
+  })
+
+  console.log('Status:', res.status)
+
+  if (!res.ok) {
+    console.log(await res.text())
+    logout()
+    return
+  }
+
+  user.value = await res.json()
+  console.log('User:', user.value)
+}
+
+export async function loginToken(newToken) {
+  if (!newToken) {
+    throw new Error('No authentication token received.')
+  }
+  
+  token.value = newToken
+  localStorage.setItem('token', newToken)
 }
 
 export function logout() {
-  localStorage.removeItem('currentUser')
-  currentUser.value = null
+  token.value = null
+  user.value = null
+  localStorage.removeItem('token')
 }
