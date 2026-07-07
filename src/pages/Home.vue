@@ -8,14 +8,12 @@
       <div
         v-for="recipe in filteredRecipes"
         :key="recipe._id"
-        class="col-md-4 mb-4"
+        class="col-lg-4 col-md-6 mb-4"
       >
-      <!-- d-flex align-items-stretch -->
         <RecipeCard 
           :recipe="recipe"
           @deleted="removeRecipe" 
         />
-        <!-- class="h-100 -->
       </div>
     </div>
   </div>

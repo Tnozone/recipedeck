@@ -23,18 +23,15 @@
           <label class="form-label">Password</label>
         </div>
 
-        <!-- 2 column grid layout for inline styling -->
         <div class="row mb-4">
-          <div class="col d-flex justify-content-center">
-            <!-- Checkbox -->
+          <!-- <div class="col d-flex justify-content-center">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" value="" checked />
               <label class="form-check-label"> Remember me </label>
             </div>
-          </div>
+          </div> -->
 
           <div class="col">
-            <!-- Simple link -->
             <a href="#!">Forgot password?</a>
           </div>
         </div>

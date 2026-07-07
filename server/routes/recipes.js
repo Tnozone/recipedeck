@@ -4,12 +4,14 @@ const router = express.Router();
 import Recipe from "../models/Recipe.js";
 import { authMiddleware } from '../middleware/auth.js'
 
+// fetch all recipes
 router.get("/", async (req, res) => {
     const recipes = await Recipe.find();
 
     res.json(recipes);
 });
 
+// saves new recipe, authenticated to save the usernameof the publisher
 router.post("/", authMiddleware, async (req, res) => {
     const recipe = new Recipe({
       name: req.body.name,
@@ -24,6 +26,7 @@ router.post("/", authMiddleware, async (req, res) => {
     res.status(201).json(recipe)
 });
 
+// fetches recipes by a specific user
 router.get("/user/:username", async (req, res) => {
     const recipes = await Recipe.find({
         username: req.params.username
@@ -32,7 +35,8 @@ router.get("/user/:username", async (req, res) => {
     res.json(recipes);
 });
 
-router.get('/:id', async (req, res) => {
+// fetches a specific recipe
+router.get("/:id", async (req, res) => {
   try {
     const recipe = await Recipe.findById(req.params.id)
 
@@ -47,7 +51,8 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-router.delete('/:id', async (req, res) => {
+// deletes a recipe
+router.delete("/:id", async (req, res) => {
   try {
     const recipe = await Recipe.findByIdAndDelete(
       req.params.id

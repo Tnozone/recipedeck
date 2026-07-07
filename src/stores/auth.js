@@ -17,16 +17,12 @@ export async function fetchUser() {
     }
   })
 
-  console.log('Status:', res.status)
-
   if (!res.ok) {
-    console.log(await res.text())
     logout()
     return
   }
 
   user.value = await res.json()
-  console.log('User:', user.value)
 }
 
 export async function loginToken(newToken) {

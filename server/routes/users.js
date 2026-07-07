@@ -10,6 +10,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
 
+// saves the user to the database
 router.post("/register", async (req, res) => {
   if (
     !req.body.username?.trim() ||
@@ -57,7 +58,8 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.post('/login', async (req, res) => {
+// logs in the user
+router.post("/login", async (req, res) => {
   const { loginIdentifier, password } = req.body
 
   const user = await User.findOne({
@@ -98,12 +100,14 @@ router.post('/login', async (req, res) => {
   })
 })
 
-router.get('/me', authMiddleware, async (req, res) => {
+// authenticates logged in user
+router.get("/me", authMiddleware, async (req, res) => {
   const user = await User.findById(req.user.userId).select('-password')
 
   res.json(user)
 })
 
+// deletes the user and all their recipes
 router.delete('/:username', async (req, res) => {
   try {
     const user = await User.findOneAndDelete({
@@ -131,7 +135,8 @@ router.delete('/:username', async (req, res) => {
   }
 })
 
-router.post('/:username/favorites/:recipeId', async (req, res) => {
+// add and remomes recipe ids to the user's favorites array
+router.post("/:username/favorites/:recipeId", async (req, res) => {
   try {
 
     const user = await User.findOne({ username: req.params.username })
@@ -181,7 +186,8 @@ router.post('/:username/favorites/:recipeId', async (req, res) => {
   }
 })
 
-router.get('/:username/favorites', async (req, res) => {
+// fetches favorite recipe ids
+router.get("/:username/favorites", async (req, res) => {
   try {
     const user = await User.findOne({ username: req.params.username })
 
