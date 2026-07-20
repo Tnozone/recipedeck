@@ -12,6 +12,9 @@
     --color-success: var(--color-green);
     --color-success-hover: var(--color-dark-green);
 
+    /* rgb styles */
+    --color-gold-rgb: rgb(255, 193, 7);
+
     /* backgrounds */
     --main-bg-color: var(--color-light-blue);
     --head-bg-color: var(--color-green);

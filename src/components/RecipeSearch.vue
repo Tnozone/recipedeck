@@ -1,5 +1,5 @@
 <template>
-  <div class="p-3 mb-4">
+  <div class="p-3 mb-4 search">
     <div class="row g-2 d-flex justify-content-center">
       <div class="col-md-5">
         <input
@@ -36,3 +36,11 @@ watch([search, mode], () => {
   })
 })
 </script>
+
+<style scoped>
+
+.search .form-select:focus, .search .form-select:focus-visible, .search .form-control:focus, .search .form-control:focus-visible {
+  box-shadow: 0 0 0 0.25rem var(--color-gold-rgb);
+}
+
+</style>
